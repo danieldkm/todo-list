@@ -1,16 +1,26 @@
 # flutter_todo_list
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## O que estamos usando neste projeto
+- Provider
+- Sqlite
+- path
+- google_fonts
+- flutter_signin_button
+- fluttericon
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### icones
+pacote fluttericon, recomendar não utilizar o pacote pois é muito pesado.
+https://pub.dev/packages/fluttericon
+recomendado acessar o link https://www.fluttericon.com/ e baixar os icones desejados.
+
+
+### register page
+app bar customizado , icone de voltar.
+
+
+### FittedBox widget do flutter
+os filhos desse widget são automaticamente redimensionados.
