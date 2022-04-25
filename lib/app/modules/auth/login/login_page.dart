@@ -1,11 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_todo_list/app/core/notifier/default_listener_notifier.dart';
+import 'package:flutter_todo_list/app/core/ui/message.dart';
 import 'package:flutter_todo_list/app/core/widget/todo_list_field.dart';
 import 'package:flutter_todo_list/app/core/widget/todo_list_logo.dart';
+import 'package:flutter_todo_list/app/modules/auth/login/login_controller.dart';
+import 'package:provider/provider.dart';
+import 'package:validatorless/validatorless.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
+  final _emailFaocus = FocusNode();
+
+  @override
+  void dispose() {
+    _emailEC.dispose();
+    _passwordEC.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    DefaultListenerNotifier(
+      changeNotifier: context.read<LoginController>(),
+    ).listener(
+      context: context,
+      successCallback: (notifier, listenerNotifier) {
+        listenerNotifier.dispose();
+        Navigator.of(context).pop();
+      },
+      everCallback: (notifier, listenerNotifier) {
+        if (notifier is LoginController) {
+          if (notifier.hasInfo) {
+            Message.of(context).showInfo(notifier.infoMessage!);
+          }
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,41 +64,79 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  TodoListLogo(),
+                  const TodoListLogo(),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 40,
                       vertical: 20,
                     ),
                     child: Form(
+                      key: _formKey,
                       child: Column(
                         children: [
                           TodoListField(
+                            controller: _emailEC,
                             label: 'E-mail',
+                            focusNode: _emailFaocus,
+                            validator: Validatorless.multiple([
+                              Validatorless.required('E-mail obrigatório!'),
+                              Validatorless.email('E-mail inválido!'),
+                            ]),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TodoListField(
                             label: 'Senha',
                             obscureText: true,
+                            controller: _passwordEC,
+                            validator: Validatorless.multiple([
+                              Validatorless.required('Senha obrigatório!'),
+                              Validatorless.min(
+                                6,
+                                'Senha deve conter pelo menos 6 caracteres!',
+                              ),
+                            ]),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: () {},
-                                child: Text('Esqueceu a senha?'),
+                                onPressed: () {
+                                  if (_emailEC.text.isNotEmpty) {
+                                    context
+                                        .read<LoginController>()
+                                        .forgotPassword(
+                                          _emailEC.text,
+                                        );
+                                  } else {
+                                    _emailFaocus.requestFocus();
+                                    Message.of(context).showError(
+                                        'Digite um e-mail para recuperar a senha!');
+                                  }
+                                },
+                                child: const Text('Esqueceu a senha?'),
                               ),
                               ElevatedButton(
-                                onPressed: () {},
-                                child: Padding(
+                                onPressed: () {
+                                  final formValid =
+                                      _formKey.currentState?.validate() ??
+                                          false;
+                                  if (formValid) {
+                                    final email = _emailEC.text;
+                                    final password = _passwordEC.text;
+                                    context
+                                        .read<LoginController>()
+                                        .login(email, password);
+                                  }
+                                },
+                                child: const Padding(
                                   padding: EdgeInsets.all(10.0),
                                   child: Text('Login'),
                                 ),
@@ -71,13 +152,13 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xffF0F3F7),
+                        color: const Color(0xffF0F3F7),
                         border: Border(
                           top: BorderSide(
                             width: 2,
@@ -87,27 +168,28 @@ class LoginPage extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           SignInButton(
                             Buttons.Google,
                             text: 'Continue com o Google',
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             shape: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
                             ),
-                            onPressed: () {},
+                            onPressed: () =>
+                                context.read<LoginController>().googleLogin(),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Não tem conta?'),
+                              const Text('Não tem conta?'),
                               TextButton(
                                 onPressed: () => Navigator.of(context)
                                     .pushNamed('/register'),
-                                child: Text('Cadastre-se'),
+                                child: const Text('Cadastre-se'),
                               ),
                             ],
                           )
