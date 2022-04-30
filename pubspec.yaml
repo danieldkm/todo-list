@@ -43,6 +43,8 @@ dependencies:
   validatorless: ^1.2.1
   flutter_overlay_loader: ^1.0.3
   google_sign_in: ^5.3.0
+  fluttericon: ^2.0.0
+  date_picker_timeline: ^1.2.3
 
 dev_dependencies:
   flutter_test:

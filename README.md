@@ -15,6 +15,8 @@
 - validatorless
 - flutter_overlay_loader
 - clean architecture flutter
+- fluttericon
+- date_picker_timeline
 
 ### icones
 pacote fluttericon, recomendar não utilizar o pacote pois é muito pesado.
