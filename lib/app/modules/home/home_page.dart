@@ -6,9 +6,40 @@ import 'package:flutter_todo_list/app/modules/home/widgets/home_filters.dart';
 import 'package:flutter_todo_list/app/modules/home/widgets/home_header.dart';
 import 'package:flutter_todo_list/app/modules/home/widgets/home_tasks.dart';
 import 'package:flutter_todo_list/app/modules/home/widgets/home_week_filter.dart';
+import 'package:flutter_todo_list/app/modules/tasks/tasks_module.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  void _goToCreateTask(BuildContext context) {
+    /* Navigator.of(context).pushNamed('/task/create'); */
+    /*Navigator.of(context).push(
+      MaterialPageRoute(
+        // builder: (_) => TaskCreatePage(
+        //   controller: context.read(),
+        // ),
+        builder: (_) => TasksModule().getPage('/task/create', context),
+      ),
+    );*/
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          animation =
+              CurvedAnimation(parent: animation, curve: Curves.easeInQuad);
+          return ScaleTransition(
+            scale: animation,
+            alignment: Alignment.bottomRight,
+            child: child,
+          );
+        },
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return TasksModule().getPage('/task/create', context);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +59,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: context.primaryColor,
-        onPressed: () {},
+        onPressed: () => _goToCreateTask(context),
         child: const Icon(Icons.add),
       ),
       backgroundColor: const Color(0xFFFAFBFE),
