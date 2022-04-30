@@ -16,7 +16,9 @@
 - flutter_overlay_loader
 - clean architecture flutter
 - fluttericon
-- date_picker_timeline
+- date_picker_timeline : widget para exibir o calendario
+- intl : formataçãp de datas
+- flutter_localizations : suporte a "linguas"" 
 
 ### icones
 pacote fluttericon, recomendar não utilizar o pacote pois é muito pesado.

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_todo_list/app/exception/auth_exception.dart';
-import 'package:flutter_todo_list/app/repositories/user_repository.dart';
+import 'package:flutter_todo_list/app/repositories/user/user_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserRepositoryImpl implements UserRepository {

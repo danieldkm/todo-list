@@ -4,11 +4,11 @@ import 'package:sqflite/sqflite.dart';
 class MigrationV2 implements Migration {
   @override
   void create(Batch batch) {
-    batch.execute('craete tanle teste(id integer)');
+    batch.execute('create table teste(id integer)');
   }
 
   @override
   void update(Batch batch) {
-    batch.execute('craete tanle teste(id integer)');
+    batch.execute('create table teste(id integer)');
   }
 }

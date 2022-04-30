@@ -179,8 +179,12 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
                             ),
-                            onPressed: () =>
-                                context.read<LoginController>().googleLogin(),
+                            onPressed: () async {
+                              await context
+                                  .read<LoginController>()
+                                  .googleLogin();
+                              Navigator.of(context).pushNamed('/home');
+                            },
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

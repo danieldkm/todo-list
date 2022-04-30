@@ -21,6 +21,9 @@ class SqliteConnectionFactory {
     var databasePathFinal = join(databasePath, _DATABASE_NAME);
     if (_db == null) {
       await _lock.synchronized(() async {
+        print('datapath');
+        print(databasePathFinal);
+        print('_VERSION $_VERSION');
         _db ??= await openDatabase(
           databasePathFinal,
           version: _VERSION,
@@ -45,6 +48,7 @@ class SqliteConnectionFactory {
   }
 
   Future<void> _onCreate(Database db, int version) async {
+    print('onCreate version $version');
     final batch = db.batch();
     final migrations = SqliteMigrationFactory().getCreateMigration();
     for (var migration in migrations) {

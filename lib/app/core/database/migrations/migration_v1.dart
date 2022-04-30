@@ -9,7 +9,7 @@ class MigrationV1 implements Migration {
         id Integer primary key autoincrement,
         descricao varchar(500) not null,
         data_hora datetime,
-        finalizado integer,
+        finalizado integer
       )
     ''');
   }
