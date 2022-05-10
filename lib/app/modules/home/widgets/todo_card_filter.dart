@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_list/app/core/ui/theme_extensions.dart';
+import 'package:flutter_todo_list/app/models/task_filter_enum.dart';
+import 'package:flutter_todo_list/app/models/total_task_model.dart';
 
-class TodoCardFilter extends StatefulWidget {
-  const TodoCardFilter({Key? key}) : super(key: key);
-  @override
-  _TodoCardFilterState createState() => _TodoCardFilterState();
-}
+class TodoCardFilter extends StatelessWidget {
+  final String label;
+  final TaskFilterEnum taskFilter;
+  final TotalTaskModel? totalTaskModel;
+  final bool selected;
 
-class _TodoCardFilterState extends State<TodoCardFilter> {
+  const TodoCardFilter({
+    Key? key,
+    required this.label,
+    required this.taskFilter,
+    required this.selected,
+    this.totalTaskModel,
+  }) : super(key: key);
+
+  double _getPercentFinish() {
+    final total = totalTaskModel?.totalTasks ?? 0.0;
+    final totalFinish = totalTaskModel?.totalTasksFinish ?? 0.1;
+
+    if (total == 0) {
+      return 0.0;
+    }
+
+    final percent = (totalFinish * 100) / total;
+    return percent / 100;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +36,7 @@ class _TodoCardFilterState extends State<TodoCardFilter> {
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.primaryColor,
+        color: selected ? context.primaryColor : Colors.white,
         border: Border.all(
           width: 1,
           color: Colors.grey.withOpacity(.8),
@@ -27,24 +48,36 @@ class _TodoCardFilterState extends State<TodoCardFilter> {
         children: [
           /* SizedBox(height: 21, width: 21, child: CircularProgressIndicator(),) */
           Text(
-            '10 TASKS',
+            '${totalTaskModel?.totalTasks ?? 0} TASKS',
             style: context.titleStyle.copyWith(
               fontSize: 10,
-              color: Colors.white,
+              color: selected ? Colors.white : Colors.grey,
             ),
           ),
-          const Text(
-            'HOME',
+          Text(
+            label,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: selected ? Colors.white : Colors.black,
             ),
           ),
-          LinearProgressIndicator(
-            backgroundColor: context.primaryColorLight,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-            value: 0.4,
+          TweenAnimationBuilder<double>(
+            tween: Tween(
+              begin: 0.0,
+              end: _getPercentFinish(),
+            ),
+            duration: Duration(seconds: 1),
+            builder: (context, value, child) {
+              return LinearProgressIndicator(
+                backgroundColor:
+                    selected ? context.primaryColorLight : Colors.grey.shade300,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  selected ? Colors.white : context.primaryColor,
+                ),
+                value: value,
+              );
+            },
           ),
         ],
       ),
