@@ -39,7 +39,8 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       successCallback: (notifier, listenerNotifier) {
         listenerNotifier.dispose();
-        Navigator.of(context).pop();
+        // Removemos eesse pop devido a alteração do AuthProvider de idTokenChanges para authStateChanges
+        // Navigator.of(context).pop();
       },
     );
   }

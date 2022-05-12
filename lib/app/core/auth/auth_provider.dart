@@ -21,7 +21,7 @@ class AuthProvider extends ChangeNotifier {
     _firebaseAuth.userChanges().listen(
           (_) => notifyListeners(),
         );
-    _firebaseAuth.idTokenChanges().listen((user) {
+    _firebaseAuth.authStateChanges().listen((user) {
       if (user != null) {
         TodoListNavigator.to!.pushNamedAndRemoveUntil(
           '/home',
