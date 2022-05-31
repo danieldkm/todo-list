@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_list/app/models/task_model.dart';
+import 'package:flutter_todo_list/app/modules/home/home_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Task extends StatelessWidget {
   final TaskModel model;
-  final dateFormat = DateFormat('dd/mm/yyyy');
+  final dateFormat = DateFormat('dd/MM/yyyy');
   Task({
     Key? key,
     required this.model,
@@ -23,10 +25,13 @@ class Task extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: IntrinsicHeight(
         child: ListTile(
-          contentPadding: EdgeInsets.all(8),
+          contentPadding: const EdgeInsets.all(8),
           leading: Checkbox(
             value: model.finished,
-            onChanged: (value) {},
+            onChanged: (value) =>
+                context.read<HomeController>().checkOrUncheckTask(
+                      model,
+                    ),
           ),
           title: Text(
             model.description,
