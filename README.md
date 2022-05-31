@@ -41,3 +41,9 @@ os filhos desse widget são automaticamente redimensionados.
   - no android
     - copiar o package name que fica no arquivo AndroidManifest ex=> com.example.flutter_todo_list"
     - adicionar "Impressão Digital", seguir os passo a passo clicando no link.
+
+## Desafio
+[ ] a partir do commit "Resolvendo problema de layout no header"
+[ ] ao dar logout limpar os dados daquele login
+[ ] opção de deletar uma task (Dismissable, Slider)
+[ ] o contador do card principal, exibir a quantidade de tasks que ainda não foram finalizadas
