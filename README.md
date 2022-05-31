@@ -1,7 +1,18 @@
 # flutter_todo_list
 
 
+## Arquitetura do projeto
+- MVVM
+  View -> ViewModel -> Module
 
+Page (view) tem um controller (ViewModel) e ela se comunica com as Services que se comunica com as repositories.
+
+core: tudo que é comum dentro da aplicação.
+exception: exceções do app
+models: traz os modelos do "mundo real", modelos do app
+modules: features do app
+services: camada de regra de negocio (controller faz o controle da regra de negocio da tela)
+repositories: camada de dados. db, api, firebase, etc.
 
 ## O que estamos usando neste projeto
 - Provider
@@ -43,7 +54,8 @@ os filhos desse widget são automaticamente redimensionados.
     - adicionar "Impressão Digital", seguir os passo a passo clicando no link.
 
 ## Desafio
-[ ] a partir do commit "Resolvendo problema de layout no header"
-[ ] ao dar logout limpar os dados daquele login
-[ ] opção de deletar uma task (Dismissable, Slider)
+*a partir do commit "Resolvendo problema de layout no header"
+
+[ ] ao fazer logout limpar os dados daquele login
+[ ] opção de deletar uma task (Dismissable, Slider, etc)
 [ ] o contador do card principal, exibir a quantidade de tasks que ainda não foram finalizadas
